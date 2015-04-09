@@ -1,0 +1,68 @@
+﻿♦AutoReplace♣
+Replaces live data in source code files by pattern matching.
+© Yves Goergen, http://unclassified.software/apps/autoreplace
+
+Usage: AutoReplace [options] filename target {name=value} ...
+
+♦OPTIONS♣
+
+/help, /?        Shows this help text.
+/version         Shows the application version.
+/debug           Shows debug output during processing.
+
+/utf8            Forces UTF-8 encoding
+/utf16           Forces UTF-16 encoding
+/utf8nobom       Forces UTF-8 encoding without byte-order mark
+/defaultenc      Forces platform-default ANSI encoding
+
+♦PATTERNS♣
+
+Each line that should be updated must be directly preceded by a comment line that specifies the regular expression pattern to match and the replacement data. Each such line also contains a target to which it applies. The comment must span the whole line (white-space is ignored) and start with “autoreplace for ”, followed by the target name, the pattern, “ to ”, and finally the replacement data. If the string “ to ” is included in the pattern, it can be escaped as regular expression like “ [t]o ”.
+
+♦TARGETS♣
+
+Each pattern specifies a target name to which it applies. The pattern is then only regarded when updating the file if the same target name is specified on the command line. Other target patterns are completely ignored.
+
+♦EXAMPLES♣
+
+♦C#♣ source code file:
+  // autoreplace for cr © [0-9–]{4,9} to © 2015–{year}
+  [assembly: AssemblyCopyright("© 2015 Some Company")]
+
+Call:
+  AutoReplace AssemblyInfo.cs cr year=2016
+
+Result:
+  // autoreplace for cr © [0-9–]{4,9} to © 2015–{year}
+  [assembly: AssemblyCopyright("© 2015–2016 Some Company")]
+
+♦PHP♣ source code file:
+  <?php
+  # autoreplace for fieldlog FieldLogSetup-.+\.exe to FieldLogSetup-{version}.exe
+  $download_url = 'files/source/fieldlog/FieldLogSetup-1.0.123.exe';
+  # autoreplace for fieldlog [0-9-]{10} to {date}
+  $updated = '2015-02-01';
+  ?>
+
+Call:
+  AutoReplace /utf8nobom test.php fieldlog version=1.2.50 date=2015-04-05
+
+Result:
+  <?php
+  # autoreplace for fieldlog FieldLogSetup-.+\.exe to FieldLogSetup-{version}.exe
+  $download_url = 'files/source/fieldlog/FieldLogSetup-1.2.50.exe';
+  # autoreplace for fieldlog [0-9-]{10} to {date}
+  $updated = '2015-04-05';
+  ?>
+
+♦FILE FORMATS♣
+
+The following source code file extensions are recognised:
+
+.bas, .c, .cs, .cpp, .css, .html, .js, .json, .pas, .php, .ps1, .vb, .vbs, .xhtml, .xml
+
+♦ENCODINGS♣
+
+If nothing else is specified, the encoding of the file is recognised on reading it. This automatic recognition includes Unicode encodings by their byte-order mark (BOM) or the platform-default ANSI encoding otherwise. UTF-8-encoded files without BOM are treated as ANSI which may lead to incorrect results if the pattern or the replaced data contains characters not included in the ANSI encoding. One of the encoding options can be set to disable encoding recognition and read and write the file with the indicated encoding. (If multiple encoding options are set the behaviour is undefined.)
+
+Note: PHP does not support BOM in source files, so the /utf8nobom option must be set for UTF-8-encoded PHP files.
