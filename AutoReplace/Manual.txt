@@ -23,6 +23,10 @@ Each line that should be updated must be directly preceded by a comment line tha
 
 Each pattern specifies a target name to which it applies. The pattern is then only regarded when updating the file if the same target name is specified on the command line. Other target patterns are completely ignored.
 
+♦DATA♣
+
+The replacement text for each pattern can contain placeholders that will be filled with the values specified on the command line. Each placeholder has a name (preferably only common source code identifiers, i.e. letters and digits) that is assigned a value. The placeholder name is specified within curly braces in the pattern comment like in the examples below.
+
 ♦EXAMPLES♣
 
 ♦C#♣ source code file:
