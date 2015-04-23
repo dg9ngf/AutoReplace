@@ -75,6 +75,9 @@ namespace AutoReplace
 					commentStart = @"/\*";
 					commentEnd = @"\*/";
 					break;
+				case ".iss":
+					lineCommentPrefix = "(?:;|//)";   // Combined for both setup and code sections
+					break;
 				case ".js":
 				case ".json":   // May not apply, but that's what we'd do
 					lineCommentPrefix = "//";
