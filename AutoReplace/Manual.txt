@@ -63,7 +63,7 @@ Result:
 
 The following source code file extensions are recognised:
 
-.bas, .c, .cs, .cpp, .css, .html, .js, .json, .pas, .php, .ps1, .vb, .vbs, .xhtml, .xml
+.bas, .c, .cs, .cpp, .css, .html, .iss, .js, .json, .pas, .php, .ps1, .vb, .vbs, .xhtml, .xml
 
 ♦ENCODINGS♣
 
